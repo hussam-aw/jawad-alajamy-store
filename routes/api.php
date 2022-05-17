@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\ProductController;
-
+use App\Http\Controllers\api\OrderController;
+use App\Http\Controllers\api\OrderDetailController;
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -22,4 +23,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::resource('Category', CategoryController::class);
     Route::resource('Product', ProductController::class);
+    Route::resource('Order', OrderController::class);
+    Route::resource('OrderDetail', OrderDetailController::class);
+
 });
+
