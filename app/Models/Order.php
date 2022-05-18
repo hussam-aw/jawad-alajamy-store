@@ -13,9 +13,24 @@ class Order extends Model
         'user_id','delivery_id','total_price', 'status' , 'employee_id'
     ];
 
-    public function detail()
+    public function details()
     {
       return  $this->hasMany(OrderDetail::class,'order_id','id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function delivery()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function ScopeNew($querry)

@@ -15,9 +15,10 @@ class OrderDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'product_id'=>$this->product_id,
+            'id'=>$this->id,
+            'product'=>new ProductResource($this->product),
             'quantity'=>$this->quantity,
-            'order_id'=>$this->order_id,
+            'order'=>new OrderResource($this->order),
             'total_price'=>$this->total_price,
             'price'=>$this->price,
         ];

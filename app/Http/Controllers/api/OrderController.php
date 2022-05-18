@@ -44,7 +44,7 @@ class OrderController extends Controller
    
     public function index()
     {
-        return OrderResource::collection(Order::paginate(3));
+        return OrderResource::collection(Order::get());
     }
 
   
