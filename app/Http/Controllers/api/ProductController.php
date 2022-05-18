@@ -6,82 +6,96 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
+    public function getProductByCategoryId($id)
+    {
+      return Product::ProductByCategoryId($id);
+    }
+
+    public function getProductByBrandId($id)
+    {
+      return Product::ProductByBrandId($id);
+    }
+
     public function index()
     {
         return ProductResource::collection(Product::paginate(3));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'description'=> 'required',
+            'category_id' => 'required',
+            'brand_id' => 'required',
+            'images' => 'required',
+        ]);
+
+        $product = Product::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'category_id'=> $request->category_id,
+            'brand_id' => $request->brand_id,
+            'slug' => $request->slug,
+            'images' => $request->images,
+        ]);
+
+       
+        return response($product, 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function update(Request $request, $id)
     {
-        //
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required',
+        //     'price' => 'required',
+        //     'description'=> 'required',
+        //     'category_id' => 'required',
+        //     'brand_id' => 'required',
+        //     'images' => 'required',
+        // ]);
+
+        // $product = Product::find($id); 
+
+        // $product->update($request->all());
+
+        // return response($product, 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy($id)
     {
-        //
+        // $product = Product::find($id); 
+
+        // $product->delete();
+
+        // return response($product, 201);
     }
 }

@@ -10,5 +10,9 @@ class Category extends Model
 {
     use HasFactory , Translatable;
 
+    protected $fillable = [
+        'name','image' , 'slug'
+    ];
+
     protected $translatable = ['name'];
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\OrderDetailResource;
+use App\Models\OrderDetail;
 
 class OrderDetailController extends Controller
 {
@@ -14,7 +16,7 @@ class OrderDetailController extends Controller
      */
     public function index()
     {
-        //
+        return OrderDetailResource::collection(OrderDetail::paginate(3));
     }
 
     /**
@@ -43,7 +45,7 @@ class OrderDetailController extends Controller
             'price'=>'required'
         ]);
 
-        $order = Order::create([
+        $orderDetail = OrderDetail::create([
             'product_id' => $request->product_id,
             'quantity' => $request->delivery_id,
             'order_id' => $request->status,
@@ -51,11 +53,9 @@ class OrderDetailController extends Controller
             'price' => $request->price,
         ]);
 
-        $response = [
-            'message' => 'Success',
-        ];
+        
 
-        return response($response, 201);
+        return response($orderDetail, 201);
     }
 
     /**

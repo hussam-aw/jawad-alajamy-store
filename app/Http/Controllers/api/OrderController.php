@@ -5,35 +5,55 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Http\Resources\OrderResource;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function getOrderByUserId($id)
     {
-        //
+        return OrderResource::collection(Order::OrderByUserId($id));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getOrderByDeliveryId($id)
+    {
+        return OrderResource::collection(Order::OrderByDeliveryId($id));
+    }
+
+    public function getOrderByEmployeeId($id)
+    {
+        return OrderResource::collection(Order::OrderByEmployeeId($id));
+      
+    }
+
+    public function getNew()
+    {
+        return  OrderResource::collection(Order::New());
+    }
+
+    public function getShipping()
+    {
+        return OrderResource::collection(Order::Shipping());
+    }
+
+    public function getOrdered()
+    {
+        return  OrderResource::collection(Order::Ordered());
+    }
+   
+    public function index()
+    {
+        return OrderResource::collection(Order::paginate(3));
+    }
+
+  
     public function create()
     {
        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         $fields = $request->validate([
@@ -41,6 +61,7 @@ class OrderController extends Controller
             'delivery_id' => 'required',
             'status' => 'required',
             'total_price'=>'required',
+            'employee_id'=>'required',
         ]);
 
         $order = Order::create([
@@ -48,57 +69,59 @@ class OrderController extends Controller
             'delivery_id' => $request->delivery_id,
             'status' => $request->status,
             'total_price'=> $request->total_price,
+            'employee_id'=> $request->employee_id,
         ]);
 
-        $response = [
-            'message' => 'Success',
-        ];
-
-        return response($response, 201);
+       
+        return response($order, 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, $id)
     {
-        //
+        // $validator = Validator::make($request->all(), [
+        //     'delivery_id' => 'required',
+        //     'status' => 'required',
+        //     'total_price'=>'required',
+        //     'employee_id'=>'required',
+        // ]);
+
+        $order= Order::find($id); 
+
+        $order->update($request->all());
+
+        // $order->update([
+        //     'delivery_id' => $request->delivery_id,
+        //     'status' => $request->status,
+        //     'total_price'=> $request->total_price,
+        //     'employee_id'=> $request->employee_id,
+        //     'user_id' => $request->user_id,
+        // ]);
+
+       
+        return response($order, 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function destroy($id)
     {
-        //
+        $order= Order::find($id); 
+
+        $order->delete();
+
+        return response($order, 201);
+
     }
 }

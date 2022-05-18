@@ -11,4 +11,15 @@ class Product extends Model
     use HasFactory , Translatable;
 
     protected $translatable = ['name' , 'description'];
+
+
+    public function ScopeProductByCategoryId($querry , $id)
+    {
+      return $querry->where('category_id' ,$id)->get();
+    }
+
+    public function ScopeProductByBrandId($querry , $id)
+    {
+      return $querry->where('brand_id' ,$id)->get();
+    }
 }

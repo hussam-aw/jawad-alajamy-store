@@ -9,10 +9,7 @@ use App\Models\OrderDetail;
 class OrderController extends Controller
 {
 
+ 
 
 
-    public function getNew()
-    {
-        return setting('contactus.tel');
-    }
 }

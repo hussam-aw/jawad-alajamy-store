@@ -10,7 +10,7 @@ class Order extends Model
     use HasFactory;
 
      protected $fillable = [
-        'user_id','delivery_id','total_price', 'status'
+        'user_id','delivery_id','total_price', 'status' , 'employee_id'
     ];
 
     public function detail()
@@ -33,8 +33,19 @@ class Order extends Model
       return $querry->where('status',2)->get();
     }
 
-//     public function getStatusBrowseAttribute()
-// {
-//     return $this->status ?? 'null';
-// }
+    public function ScopeOrderByUserId($querry , $id)
+    {
+      return $querry->where('user_id' ,$id)->get();
+    }
+
+    public function ScopeOrderByEmployeeId($querry , $id)
+    {
+      return $querry->where('employee_id' ,$id)->get();
+    }
+
+    public function ScopeOrderByDeliveryId($querry , $id)
+    {
+      return $querry->where('delivery_id' ,$id)->get();
+    }
+
 }
